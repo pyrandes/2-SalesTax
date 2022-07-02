@@ -4,14 +4,28 @@ import ct.products.Product;
 
 public class CartItem
 {
-    private Product mItem;
-    private int mQty;
+    private Product item;
+    private int qty;
     private float tax;
+
+    public CartItem(Product item, int qty)
+    {
+        this.item = item;
+        this.qty = qty;
+    }
 
     public float getTotal()
     {
-        // TODO: calc total of this line item's price once Product is implemented
-        return 0f;
+        return item.getMsrp() * qty;
+    }
+
+    public void addToQty(int qty)
+    {
+        this.qty += qty;
+    }
+
+    public int getQty() {
+        return qty;
     }
 
     public float getTax()
