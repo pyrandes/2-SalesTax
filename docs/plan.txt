@@ -1,0 +1,18 @@
+10% Sales tax applicable most goods
+    Exempt types: Books, Food, and Medical Products
+ 5% import duty on all products labelled as "import"
+
+Rounding rules for Sales Tax:
+    tax rate of n%
+    sales price of product p
+
+Application should print a receipt showing:
+    [n] Item - QTY - Total Price incl Tax
+    Sales Taxes applied (sales tax + import duty, if applicable)
+    Grand Total
+
+
+Classes needed:
+    1] Product
+    2] ProductType (enum)
+    3]
