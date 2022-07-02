@@ -25,6 +25,7 @@ Classes needed:
         |- medical(false)
         |- cd(true)
         |= other stuff...
+    3] ProductEngine
     3] ShoppingCart
         |- checkout
     4] Tax engine/module of some sort?
