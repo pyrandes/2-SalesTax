@@ -14,5 +14,18 @@ Application should print a receipt showing:
 
 Classes needed:
     1] Product
+        |- name
+        |- type
+        |- isImport
+        |- sales price
     2] ProductType (enum)
-    3]
+        field: hasTaxApplied
+        |- books(false)
+        |- food(false)
+        |- medical(false)
+        |- cd(true)
+        |= other stuff...
+    3] ShoppingCart
+        |- checkout
+    4] Tax engine/module of some sort?
+    5]
