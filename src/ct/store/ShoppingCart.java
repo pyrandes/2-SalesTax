@@ -1,6 +1,8 @@
 package ct.store;
 
 import ct.products.Product;
+
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,24 +44,24 @@ public class ShoppingCart
         return items;
     }
 
-    public float getGrandTotal()
+    public BigDecimal getGrandTotal()
     {
         // return itemsInCart.values().parallelStream().map(item -> item.getTotal() + item.getTax()).reduce(0f, (t1, t2) -> t1+t2);
 
-        float total = 0f;
+        BigDecimal total = new BigDecimal(0f);
         for(CartItem item: itemsInCart.values()) {
-            total += item.getTotal() + item.getTax();
+            total = total.add(item.getTotal()).add(item.getTax());
         }
         return total;
     }
 
-    public float getTotalTax()
+    public BigDecimal getTotalTax()
     {
         // return itemsInCart.values().parallelStream().map(item -> item.getTax()).reduce(0f, (t1, t2) -> t1+t2);
 
-        float totalTax = 0f;
+        BigDecimal totalTax = new BigDecimal(0f);
         for(CartItem item: itemsInCart.values()) {
-            totalTax += item.getTax();
+            totalTax = totalTax.add(item.getTax());
         }
         return totalTax;
     }

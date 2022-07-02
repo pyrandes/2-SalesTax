@@ -2,21 +2,24 @@ package ct.store;
 
 import ct.products.Product;
 
+import java.math.BigDecimal;
+
 public class CartItem
 {
     private Product item;
     private int qty;
-    private float tax;
+    private BigDecimal tax;
 
     public CartItem(Product item, int qty)
     {
         this.item = item;
         this.qty = qty;
+        this.tax = new BigDecimal(0f);
     }
 
-    public float getTotal()
+    public BigDecimal getTotal()
     {
-        return item.getMsrp() * qty;
+        return item.getMsrp().multiply(new BigDecimal(qty));
     }
 
     public void addToQty(int qty)
@@ -28,12 +31,12 @@ public class CartItem
         return qty;
     }
 
-    public float getTax()
+    public BigDecimal getTax()
     {
         return tax;
     }
 
-    public void setTax(float tax)
+    public void setTax(BigDecimal tax)
     {
         this.tax = tax;
     }
