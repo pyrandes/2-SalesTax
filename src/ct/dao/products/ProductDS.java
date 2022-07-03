@@ -1,4 +1,4 @@
-package ct.dao;
+package ct.dao.products;
 
 import ct.products.Product;
 

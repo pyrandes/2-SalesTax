@@ -46,7 +46,7 @@ public class ShoppingCart
 
     public BigDecimal getGrandTotal()
     {
-        // return itemsInCart.values().parallelStream().map(item -> item.getTotal() + item.getTax()).reduce(0f, (t1, t2) -> t1+t2);
+        // return itemsInCart.values().parallelStream().map(item -> item.getTotal().add(item.getTax())).reduce(new BigDecimal("0", (t1, t2) -> t1.add(t2));
 
         BigDecimal total = new BigDecimal(0f);
         for(CartItem item: itemsInCart.values()) {
@@ -57,7 +57,7 @@ public class ShoppingCart
 
     public BigDecimal getTotalTax()
     {
-        // return itemsInCart.values().parallelStream().map(item -> item.getTax()).reduce(0f, (t1, t2) -> t1+t2);
+        // return itemsInCart.values().parallelStream().map(item -> item.getTax()).reduce(new BigDecimal(0f), (t1, t2) -> t1.add(t2));
 
         BigDecimal totalTax = new BigDecimal(0f);
         for(CartItem item: itemsInCart.values()) {

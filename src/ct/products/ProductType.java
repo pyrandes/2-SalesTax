@@ -6,7 +6,7 @@ public enum ProductType
     Book,
     Medical,
     CD,
-
+    OTHER
     ;
 
 }

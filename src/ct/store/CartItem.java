@@ -6,20 +6,24 @@ import java.math.BigDecimal;
 
 public class CartItem
 {
-    private Product item;
+    private Product product;
     private int qty;
     private BigDecimal tax;
 
-    public CartItem(Product item, int qty)
+    public CartItem(Product product, int qty)
     {
-        this.item = item;
+        this.product = product;
         this.qty = qty;
         this.tax = new BigDecimal(0f);
     }
 
+    public Product getProduct() {
+        return product;
+    }
+
     public BigDecimal getTotal()
     {
-        return item.getMsrp().multiply(new BigDecimal(qty));
+        return product.getMsrp().multiply(new BigDecimal(qty));
     }
 
     public void addToQty(int qty)

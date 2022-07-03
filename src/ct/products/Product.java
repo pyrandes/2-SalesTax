@@ -6,13 +6,15 @@ public class Product
 {
     private final String id, name;
     private final ProductType type;
+    private final boolean isImport;
     private final BigDecimal msrp;
 
-    public Product(String id, String name, ProductType type, BigDecimal msrp)
+    public Product(String id, String name, ProductType type, boolean isImport, BigDecimal msrp)
     {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.isImport = isImport;
         this.msrp = msrp;
     }
 
@@ -30,5 +32,9 @@ public class Product
 
     public String getName() {
         return name;
+    }
+
+    public boolean isImport() {
+        return isImport;
     }
 }
