@@ -5,6 +5,7 @@
 Rounding rules for Sales Tax:
     tax rate of n%
     sales price of product p
+    n*p/100 should be rounded to the nearest 0.05
 
 Application should print a receipt showing:
     [n] Item - QTY - Total Price incl Tax

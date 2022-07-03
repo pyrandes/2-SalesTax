@@ -56,7 +56,7 @@ public class TaxEngineTest
     }
 
     @Test
-    public void testFlatTax2()
+    public void testImportFlatTax()
     {
         ShoppingCart sc = new ShoppingCart();
         Product p;
@@ -75,6 +75,52 @@ public class TaxEngineTest
                 assertEquals(new BigDecimal("0.50").floatValue(), item.getTax().floatValue());
             else
                 assertEquals(new BigDecimal("7.15").floatValue(), item.getTax().floatValue());
+        }
+    }
+
+    @Test
+    public void testImportFlatTax2()
+    {
+        ShoppingCart sc = new ShoppingCart();
+        Product p;
+        p = new Product("1", "imported chocolate", ProductType.Food, true, new BigDecimal("10.00"));
+        sc.addProduct(p, 1);
+        p = new Product("2", "imported perfume", ProductType.OTHER, true, new BigDecimal("47.50"));
+        sc.addProduct(p, 10);
+
+        User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+
+        TaxEngine te = new TaxEngine(new FlatTaxDS());
+        te.calculateTaxes(user, sc);
+
+        for(CartItem item: sc.getItemsInCart()) {
+            if (nonTaxedGoods.contains(item.getProduct().getType()))
+                assertEquals(new BigDecimal("0.50").floatValue(), item.getTax().floatValue());
+            else
+                assertEquals(new BigDecimal("71.25").floatValue(), item.getTax().floatValue());
+        }
+    }
+
+    @Test
+    public void testImportFlatTaxHighQtyBought()
+    {
+        ShoppingCart sc = new ShoppingCart();
+        Product p;
+        p = new Product("1", "imported chocolate", ProductType.Food, true, new BigDecimal("10.00"));
+        sc.addProduct(p, 1);
+        p = new Product("2", "imported perfume", ProductType.OTHER, true, new BigDecimal("47.50"));
+        sc.addProduct(p, 1000);
+
+        User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+
+        TaxEngine te = new TaxEngine(new FlatTaxDS());
+        te.calculateTaxes(user, sc);
+
+        for(CartItem item: sc.getItemsInCart()) {
+            if (nonTaxedGoods.contains(item.getProduct().getType()))
+                assertEquals(new BigDecimal("0.50").floatValue(), item.getTax().floatValue());
+            else
+                assertEquals(new BigDecimal("7125").floatValue(), item.getTax().floatValue());
         }
     }
 }
