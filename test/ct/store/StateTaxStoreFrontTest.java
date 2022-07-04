@@ -2,15 +2,13 @@ package ct.store;
 
 import ct.dao.products.ProductCSVDS;
 import ct.dao.products.ProductDS;
-import ct.dao.taxes.FlatTaxDS;
 import ct.dao.taxes.StateFreeTaxDS;
 import ct.products.Product;
 import ct.store.taxes.TaxEngine;
-import ct.users.Customer;
 import ct.users.User;
 import ct.users.UserInfo;
+import ct.users.UserType;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -61,7 +59,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest1MN()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "1", 1);
         sf.addItemToShoppingCart(customer, "2", 1);
@@ -92,7 +90,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest1CA()
     {
-        User customer = new Customer("4", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+        User customer = new User("4", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
 
         sf.addItemToShoppingCart(customer, "1", 1);
         sf.addItemToShoppingCart(customer, "2", 1);
@@ -123,7 +121,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest2MN()
     {
-        User customer = new Customer("2", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new User("2", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "4", 1);
         sf.addItemToShoppingCart(customer, "5", 1);
@@ -150,7 +148,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest3MN()
     {
-        User customer = new Customer("3", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new User("3", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "6", 1);
         sf.addItemToShoppingCart(customer, "7", 1);
@@ -185,7 +183,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest2CA()
     {
-        User customer = new Customer("5", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+        User customer = new User("5", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
 
         sf.addItemToShoppingCart(customer, "4", 1);
         sf.addItemToShoppingCart(customer, "5", 1);
@@ -212,7 +210,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest3CA()
     {
-        User customer = new Customer("6", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+        User customer = new User("6", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
 
         sf.addItemToShoppingCart(customer, "6", 1);
         sf.addItemToShoppingCart(customer, "7", 1);

@@ -5,9 +5,9 @@ import ct.products.Product;
 import ct.products.ProductType;
 import ct.store.CartItem;
 import ct.store.ShoppingCart;
-import ct.users.Customer;
 import ct.users.User;
 import ct.users.UserInfo;
+import ct.users.UserType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -41,7 +41,7 @@ public class TaxEngineTest
         p = new Product("3", "Godiva Dark Mint", ProductType.Food, false,0.85f, 10);
         sc.addProduct(p, 3);
 
-        User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User user = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         TaxEngine te = new TaxEngine(new FlatTaxDS());
         te.calculateTaxes(user, sc);
@@ -64,7 +64,7 @@ public class TaxEngineTest
         p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f, 10);
         sc.addProduct(p, 1);
 
-        User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User user = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         TaxEngine te = new TaxEngine(new FlatTaxDS());
         te.calculateTaxes(user, sc);
@@ -87,7 +87,7 @@ public class TaxEngineTest
         p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f, 10);
         sc.addProduct(p, 10);
 
-        User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User user = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         TaxEngine te = new TaxEngine(new FlatTaxDS());
         te.calculateTaxes(user, sc);
@@ -110,7 +110,7 @@ public class TaxEngineTest
         p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f, 10);
         sc.addProduct(p, 1000);
 
-        User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User user = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         TaxEngine te = new TaxEngine(new FlatTaxDS());
         te.calculateTaxes(user, sc);
@@ -137,7 +137,7 @@ public class TaxEngineTest
         p = new Product("4", "headache pills", ProductType.Medical, false, 9.75f, 10);
         sc.addProduct(p, 1);
 
-        User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User user = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         TaxEngine te = new TaxEngine(new FlatTaxDS());
         te.calculateTaxes(user, sc);

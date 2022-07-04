@@ -5,22 +5,31 @@ import ct.store.CartItem;
 import ct.store.Receipt;
 import ct.store.ShoppingCart;
 import ct.store.StoreFront;
-import ct.users.Customer;
 import ct.users.User;
 import ct.users.UserInfo;
+import ct.users.UserType;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommandLineStore {
     private final StoreFront store;
-    private  User customer;
+    private final Map<String, User> availUsers;
+    private User currentUser;
 
-    public CommandLineStore(StoreFront store, User customer)
+    public CommandLineStore(StoreFront store)
     {
         this.store = store;
-        this.customer = customer;
+        this.availUsers = new HashMap<>();
+
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+        availUsers.put(customer.getUserID(), customer);
+
+        customer = new User("2", UserType.EMPLOYEE, new UserInfo("dd", "", "johnson", "123 testing way", "emma" , "MS", "12345"));
+        availUsers.put(customer.getUserID(), customer);
     }
 
     public void enterStore()
@@ -49,8 +58,11 @@ public class CommandLineStore {
                     case "V":
                         viewShoppingCart();
                         break;
-                    case "R":
+                    case "D":
                         removeFromShoppingCart(clrIn);
+                        break;
+                    case "R":
+                        restockItems(clrIn);
                         break;
                     default:
                         System.out.println("Invalid option!  Please choose again!");
@@ -63,9 +75,14 @@ public class CommandLineStore {
         System.out.println("\nGoodbye!  Come again!");
     }
 
+    private void restockItems(BufferedReader clrIn) throws Exception
+    {
+
+    }
+
     private void checkOut()
     {
-        Receipt rec = store.checkout(customer);
+        Receipt rec = store.checkout(currentUser);
 
         System.out.println("\nHere's your receipt for this transaction!  Thank you for shopping with us!");
         System.out.println(String.format("[%2s] %30s %5s    %s    %s", "ID", "Product Name", "QTY", "MSRP", "Total"));
@@ -86,7 +103,7 @@ public class CommandLineStore {
         System.out.print("Enter the ID to remove: ");
         String id = clrIn.readLine();
 
-        store.removeItemFromShoppingCart(customer, id);
+        store.removeItemFromShoppingCart(currentUser, id);
     }
 
 
@@ -101,7 +118,7 @@ public class CommandLineStore {
     }
 
     private ShoppingCart displayCartItems() {
-        ShoppingCart cart = store.getShoppingCart(customer);
+        ShoppingCart cart = store.getShoppingCart(currentUser);
         if (cart == null) {
             System.out.println("\nNo shopping cart exists! Please add an item before viewing again.");
             return null;
@@ -144,7 +161,7 @@ public class CommandLineStore {
             System.out.println("Could not add " + id + " to the shopping cart!");
         }
 
-        if (!store.addItemToShoppingCart(customer, id, qty)) {
+        if (!store.addItemToShoppingCart(currentUser, id, qty)) {
             System.err.println(store.getLastError());
             return;
         }
@@ -166,32 +183,47 @@ public class CommandLineStore {
 
     private void changeState(BufferedReader clrIn) throws Exception
     {
-        System.out.println("\nCurrent State: " + customer.getUserInfo().getState());
+        System.out.println("\nCurrent State: " + currentUser.getUserInfo().getState());
         System.out.print("Change state to: ");
         String stateCd = clrIn.readLine();
         UserInfo custInfo = new UserInfo(
-                customer.getUserInfo().getFirstName(),
-                customer.getUserInfo().getMi(),
-                customer.getUserInfo().getLastName(),
-                customer.getUserInfo().getAddress(),
-                customer.getUserInfo().getCity(),
+                currentUser.getUserInfo().getFirstName(),
+                currentUser.getUserInfo().getMi(),
+                currentUser.getUserInfo().getLastName(),
+                currentUser.getUserInfo().getAddress(),
+                currentUser.getUserInfo().getCity(),
                 stateCd,
-                customer.getUserInfo().getZipCode()
+                currentUser.getUserInfo().getZipCode()
         );
-        customer = new Customer(customer.getUserID(), custInfo);
+        currentUser = new User(currentUser.getUserID(), currentUser.getUserType(), custInfo);
 
     }
+
+    private void  displayEntryOptions()
+    {
+        System.out.println("\nWelcome to the Store!  Please choose from the following options!");
+        System.out.println("   ");
+        System.out.println("   [L]ogin as user");
+        System.out.println("   [Q]uit -- exit store");
+    }
+
 
     private  void displayMenuOptions()
     {
         System.out.println("\nWelcome to the Store!  Please choose from the following options!");
         System.out.println("   ");
         System.out.println("   [A]dd products to shopping cart");
+        System.out.println("   [V]iew shopping cart");
+        System.out.println("   [D]elete items from shopping cart");
         System.out.println("   [S]tate -- change state code");
         System.out.println("   [P]roducts -- list available products");
         System.out.println("   [C]heckout");
-        System.out.println("   [V]iew shopping cart");
+
+        if (currentUser.getUserType() == UserType.EMPLOYEE) {
+            System.out.println("   [R]estock Products");
+        }
         System.out.println("   [Q]uit -- exit store");
         System.out.print("   Please enter an option: ");
     }
 }
+

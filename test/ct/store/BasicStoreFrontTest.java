@@ -4,17 +4,16 @@ import ct.dao.products.ProductCSVDS;
 import ct.dao.products.ProductDS;
 import ct.dao.taxes.FlatTaxDS;
 import ct.store.taxes.TaxEngine;
-import ct.users.Customer;
 import ct.users.User;
 import ct.users.UserInfo;
+import ct.users.UserType;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
-import java.nio.file.Paths;
 
 public class BasicStoreFrontTest
 {
@@ -31,7 +30,7 @@ public class BasicStoreFrontTest
     @Test
     public void storeTest1()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "1", 1);
         sf.addItemToShoppingCart(customer, "2", 1);
@@ -62,7 +61,7 @@ public class BasicStoreFrontTest
     @Test
     public void storeTest2()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "4", 1);
         sf.addItemToShoppingCart(customer, "5", 1);
@@ -89,7 +88,7 @@ public class BasicStoreFrontTest
     @Test
     public void storeTest3()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "6", 1);
         sf.addItemToShoppingCart(customer, "7", 1);
