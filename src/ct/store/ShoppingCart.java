@@ -3,6 +3,7 @@ package ct.store;
 import ct.products.Product;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,11 +38,7 @@ public class ShoppingCart
     {
         // Java Stream to retrieve a listing of cart items
         // return itemsInCart.values().stream().collect(Collectors.toList());
-
-        List<CartItem> items = new LinkedList<>();
-        for(CartItem item: itemsInCart.values())
-            items.add(item);
-        return items;
+        return new LinkedList<>(itemsInCart.values());
     }
 
     public BigDecimal getGrandTotal()
@@ -50,9 +47,13 @@ public class ShoppingCart
 
         BigDecimal total = new BigDecimal(0f);
         for(CartItem item: itemsInCart.values()) {
-            total = total.add(item.getTotal()).add(item.getTax());
+            total = total.add(new BigDecimal(item.getTotal())).add(new BigDecimal(item.getTax()));
         }
-        return total;
+
+        int precision = 2 ;
+        if (!(total.floatValue() < 1))
+            precision += Integer.toString(total.intValue()).length();
+        return total.round(new MathContext(precision));
     }
 
     public BigDecimal getTotalTax()
@@ -61,8 +62,12 @@ public class ShoppingCart
 
         BigDecimal totalTax = new BigDecimal(0f);
         for(CartItem item: itemsInCart.values()) {
-            totalTax = totalTax.add(item.getTax());
+            totalTax = totalTax.add(new BigDecimal(item.getTax()));
         }
-        return totalTax;
+
+        int precision = 2 ;
+        if (!(totalTax.floatValue() < 1))
+            precision += Integer.toString(totalTax.intValue()).length();
+        return totalTax.round(new MathContext(precision));
     }
 }

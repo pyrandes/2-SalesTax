@@ -1,15 +1,13 @@
 package ct.products;
 
-import java.math.BigDecimal;
-
 public class Product
 {
     private final String id, name;
     private final ProductType type;
     private final boolean isImport;
-    private final BigDecimal msrp;
+    private final float msrp;
 
-    public Product(String id, String name, ProductType type, boolean isImport, BigDecimal msrp)
+    public Product(String id, String name, ProductType type, boolean isImport, float msrp)
     {
         this.id = id;
         this.name = name;
@@ -18,7 +16,7 @@ public class Product
         this.msrp = msrp;
     }
 
-    public BigDecimal getMsrp() {
+    public float getMsrp() {
         return msrp;
     }
 

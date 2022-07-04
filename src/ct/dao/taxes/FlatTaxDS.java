@@ -1,16 +1,14 @@
 package ct.dao.taxes;
 
-import java.math.BigDecimal;
-
 public class FlatTaxDS implements TaxDS
 {
     @Override
-    public BigDecimal getImportTaxRate() {
-        return new BigDecimal("0.05");
+    public float getImportTaxRate() {
+        return 0.05f;
     }
 
     @Override
-    public BigDecimal getStateTaxRate(String state) {
-        return new BigDecimal("0.10");
+    public float getStateTaxRate(String state) {
+        return 0.10f;
     }
 }

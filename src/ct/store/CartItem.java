@@ -8,22 +8,22 @@ public class CartItem
 {
     private Product product;
     private int qty;
-    private BigDecimal tax;
+    private float tax;
 
     public CartItem(Product product, int qty)
     {
         this.product = product;
         this.qty = qty;
-        this.tax = new BigDecimal(0f);
+        this.tax = 0f;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public BigDecimal getTotal()
+    public float getTotal()
     {
-        return product.getMsrp().multiply(new BigDecimal(qty));
+        return (new BigDecimal(product.getMsrp())).multiply(new BigDecimal(qty)).floatValue();
     }
 
     public void addToQty(int qty)
@@ -35,12 +35,12 @@ public class CartItem
         return qty;
     }
 
-    public BigDecimal getTax()
+    public float getTax()
     {
         return tax;
     }
 
-    public void setTax(BigDecimal tax)
+    public void setTax(float tax)
     {
         this.tax = tax;
     }

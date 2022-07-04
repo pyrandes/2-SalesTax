@@ -17,6 +17,10 @@ public class TaxEngine
     private TaxDS taxDataStore;
     private Set<ProductType> nonTaxedGoods;
 
+    /**
+     * constructor that will accept a TaxDS as a data store/data access object
+     * @param taxDataStore a DataStore to retrieve tax rates from
+     */
     public TaxEngine(TaxDS taxDataStore)
     {
         this.taxDataStore = taxDataStore;
@@ -28,13 +32,19 @@ public class TaxEngine
         nonTaxedGoods.add(ProductType.Medical);
     }
 
+    /**
+     * calculates the total tax owed in the supplied shopping cart for a particular user
+     *  ** this will update the tax for each @CartItem in the shopping cart **
+     * @param user a User to utilize when calculating taxes
+     * @param cart a ShoppingCart to calculate new taxes on
+     */
     public void calculateTaxes(User user, ShoppingCart cart)
     {
-        BigDecimal stateTax = taxDataStore.getStateTaxRate(user.getUserInfo().getState());
-        BigDecimal importTax = taxDataStore.getImportTaxRate();
+        BigDecimal stateTax = new BigDecimal(taxDataStore.getStateTaxRate(user.getUserInfo().getState()));
+        BigDecimal importTax = new BigDecimal(taxDataStore.getImportTaxRate());
 
         for(CartItem item: cart.getItemsInCart()) {
-            BigDecimal baseTotal = new BigDecimal(item.getQty()).multiply(item.getProduct().getMsrp());
+            BigDecimal baseTotal = new BigDecimal(item.getQty()).multiply(new BigDecimal(item.getProduct().getMsrp()));
             BigDecimal taxTotal = new BigDecimal("0.0");
             if (!nonTaxedGoods.contains(item.getProduct().getType())) {
                 taxTotal = taxTotal.add(baseTotal.multiply(stateTax));
@@ -42,25 +52,35 @@ public class TaxEngine
             if (item.getProduct().isImport()) {
                 taxTotal = taxTotal.add(baseTotal.multiply(importTax));
             }
+            taxTotal = roundCalculatedTaxTotal(taxTotal);
 
-            // taxTotal should be in increments of 0.05 after all taxes have been calculated
-
-            // for rounding, use a base of 2 decimal digits (precision), adding 1 for each numeric digit
-            int precision = 2 + Integer.toString(taxTotal.intValue()).length();
-            taxTotal = taxTotal.round(new MathContext(precision, RoundingMode.HALF_UP));
-            BigDecimal lastTaxDec = taxTotal.movePointRight(2).remainder(new BigDecimal(5)).round(new MathContext(0));
-
-            if (!(lastTaxDec.intValue() == 0 || lastTaxDec.intValue() == 5)) {
-                if (lastTaxDec.intValue() < 3) {
-                    taxTotal = taxTotal.subtract(lastTaxDec);
-                } else {
-                    lastTaxDec = new BigDecimal(5).subtract(lastTaxDec).movePointLeft(2);
-                    taxTotal = taxTotal.add(lastTaxDec);
-                }
-            }
-
-            item.setTax(taxTotal);
+            item.setTax(taxTotal.floatValue());
         }
+    }
+
+    /**
+     * rounds the calculated tax owed to the nearest $0.05
+     * @param taxTotal a supplied BigDecimal to round
+     * @return a BigDecimal of the rounded tax total supplied to the nearest nickle
+     */
+    private BigDecimal roundCalculatedTaxTotal(BigDecimal taxTotal) {
+        int precision = 2 ;
+        if (!(taxTotal.floatValue() < 1))
+            precision += Integer.toString(taxTotal.intValue()).length();
+        taxTotal = taxTotal.round(new MathContext(precision, RoundingMode.HALF_UP));
+        BigDecimal lastTaxDec = taxTotal.movePointRight(2);
+        lastTaxDec = lastTaxDec.remainder(new BigDecimal(5));
+        lastTaxDec = lastTaxDec.round(new MathContext(0));
+
+        if (!(lastTaxDec.intValue() == 0 || lastTaxDec.intValue() == 5)) {
+            if (lastTaxDec.intValue() < 3) {
+                lastTaxDec = new BigDecimal(0).subtract(lastTaxDec).movePointLeft(2);
+            } else {
+                lastTaxDec = new BigDecimal(5).subtract(lastTaxDec).movePointLeft(2);
+            }
+            taxTotal = taxTotal.add(lastTaxDec);
+        }
+        return taxTotal;
     }
 }
 
