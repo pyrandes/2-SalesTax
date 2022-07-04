@@ -86,7 +86,7 @@ public class CommandLineStore {
         System.out.print("Enter the ID to remove: ");
         String id = clrIn.readLine();
 
-        cart.removeProduct(id);
+        store.removeItemFromShoppingCart(customer, id);
     }
 
 
