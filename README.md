@@ -12,5 +12,3 @@ When providing an interface, implemented a rudimentary command line first for ea
 ## Testing  
 
 
-### Issues?  
-* Output 3 indicated a total sales tax of 6.70, but after doing manual calculations, it should have been 6.65 (and subsequently, the imported box of chocolates 11.80 instead of 11.85)

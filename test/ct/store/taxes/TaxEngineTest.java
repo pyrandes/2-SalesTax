@@ -145,7 +145,7 @@ public class TaxEngineTest
         for(CartItem item: sc.getItemsInCart()) {
             switch(item.getProduct().getId()) {
                 case "1":
-                    assertEquals(0.55f, item.getTax());
+                    assertEquals(0.60f, item.getTax());
                     break;
                 case "2":
                     assertEquals(4.20f, item.getTax());

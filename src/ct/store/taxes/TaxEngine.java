@@ -14,8 +14,8 @@ import java.util.Set;
 
 public class TaxEngine
 {
-    private TaxDS taxDataStore;
-    private Set<ProductType> nonTaxedGoods;
+    private final TaxDS taxDataStore;
+    private final Set<ProductType> nonTaxedGoods;
 
     /**
      * constructor that will accept a TaxDS as a data store/data access object
@@ -73,11 +73,11 @@ public class TaxEngine
         lastTaxDec = lastTaxDec.round(new MathContext(0));
 
         if (!(lastTaxDec.intValue() == 0 || lastTaxDec.intValue() == 5)) {
-            if (lastTaxDec.intValue() < 3) {
-                lastTaxDec = new BigDecimal(0).subtract(lastTaxDec).movePointLeft(2);
-            } else {
+//            if (lastTaxDec.intValue() < 3) {
+//                lastTaxDec = new BigDecimal(0).subtract(lastTaxDec).movePointLeft(2);
+//            } else {
                 lastTaxDec = new BigDecimal(5).subtract(lastTaxDec).movePointLeft(2);
-            }
+//            }
             taxTotal = taxTotal.add(lastTaxDec);
         }
         return taxTotal;

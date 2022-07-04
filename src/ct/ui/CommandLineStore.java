@@ -34,14 +34,24 @@ public class CommandLineStore {
 
     public void enterStore()
     {
+        boolean mustLogin = true;
         try (BufferedReader clrIn = new BufferedReader(new InputStreamReader(System.in))) {
             boolean running = true;
             while (running) {
+                if (mustLogin) {
+                    currentUser = displayEntryOptions(clrIn);
+                    if (currentUser == null) {
+                        running = false;
+                        continue;
+                    }
+                    mustLogin = false;
+                }
+
                 displayMenuOptions();
                 String lineIn = clrIn.readLine();
                 switch(lineIn.toUpperCase()) {
                     case "Q":
-                        running = false;
+                        mustLogin = true;
                         break;
                     case "S":
                         changeState(clrIn);
@@ -53,7 +63,7 @@ public class CommandLineStore {
                         checkOut();
                         break;
                     case "A":
-                        addProductToCart(clrIn);
+                        addProductsToCart(clrIn);
                         break;
                     case "V":
                         viewShoppingCart();
@@ -133,10 +143,11 @@ public class CommandLineStore {
         return cart;
     }
 
-    private void addProductToCart(BufferedReader clrIn) throws Exception
+    private void addProductsToCart(BufferedReader clrIn) throws Exception
     {
         System.out.println("Please choose from our selection of products!");
         listProducts();
+        System.out.println("[E]xit product selection");
         System.out.print("Enter a Product ID to add: ");
         String id = clrIn.readLine();
 
@@ -199,13 +210,29 @@ public class CommandLineStore {
 
     }
 
-    private void  displayEntryOptions()
+    private User displayEntryOptions(BufferedReader clrIn) throws Exception
     {
-        System.out.println("\nWelcome to the Store!  Please choose from the following options!");
+        System.out.println("\nPlease choose from the following options!");
         System.out.println("   ");
         System.out.println("   [L]ogin as user");
-        System.out.println("   [Q]uit -- exit store");
+        System.out.println("   [Q]uit or any other key -- exit store");
+        System.out.print("   Please enter an option: ");
+
+        String opt = clrIn.readLine();
+        if (!opt.equalsIgnoreCase("L")) {
+            return null;
+        }
+
+        System.out.println("\nLogIn as a following user:");
+        for(User u: availUsers.values()) {
+            System.out.println(String.format("[%2s] %30s %10s", u.getUserID(), u.getUserInfo().getFirstName() + " " + u.getUserInfo().getLastName(), u.getUserType().name()));
+        }
+        System.out.print("ID to login? ");
+        String id = clrIn.readLine();
+        if (!availUsers.containsKey(id)) return null;
+        return availUsers.get(id);
     }
+
 
 
     private  void displayMenuOptions()

@@ -109,14 +109,14 @@ public class BasicStoreFrontTest
                     assertEquals(9.75f, item.getTotal());
                     break;
                 case "9":
-                    assertEquals(11.80f, item.getTotal());
+                    assertEquals(11.85f, item.getTotal());
                     break;
                 default:
                     fail("Invalid item added to the cart!");
             }
         }
 
-        assertEquals(6.65f, rec.getTotalTax());
-        assertEquals(74.63f, rec.getGrandTotal());
+        assertEquals(6.70f, rec.getTotalTax());
+        assertEquals(74.68f, rec.getGrandTotal());
     }
 }
