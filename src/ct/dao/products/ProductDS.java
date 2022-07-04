@@ -6,6 +6,8 @@ import java.util.Set;
 
 public interface ProductDS
 {
-    public Set<String> getProductIDs();
-    public Product getProduct(String id);
+    Set<String> getProductIDs();
+    Product getProduct(String id);
+    void restockProduct(Product product);
+    void removeProduct(String prodID);
 }

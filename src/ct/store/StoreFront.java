@@ -27,6 +27,24 @@ public class StoreFront
     }
 
     /**
+     * Adds/Restocks a product to a backing DataStore
+     * @param prod product to restock/add
+     */
+    public void restockProduct(Product prod)
+    {
+        productDS.restockProduct(prod);
+    }
+
+    /**
+     * Removes a product from the backing DataStore
+     * @param prodID ID to remove product
+     */
+    public void removeProduct(String prodID)
+    {
+        productDS.removeProduct(prodID);
+    }
+
+    /**
      * Retrieves a listing of current products
      * @return listing of products in the store
      */
@@ -39,6 +57,11 @@ public class StoreFront
         return prodList;
     }
 
+    /**
+     * Retrieves the supplied customer's shopping cart, if it exists
+     * @param customer to retrieve a shopping cart
+     * @return ShoppingCart of the supplied user
+     */
     public ShoppingCart getShoppingCart(User customer)
     {
         if (!userShoppingCarts.containsKey(customer.getUserID())) return null;
@@ -90,7 +113,7 @@ public class StoreFront
     }
 
     /**
-     * Performs a checkout on a customer's current shopping cart, "printing" a reciept once taxes have been
+     * Performs a checkout on a customer's current shopping cart, "printing" a receipt once taxes have been
      * calculated
      * @param customer customer requesting a checkout
      * @return a Receipt representing the shopping cart items
