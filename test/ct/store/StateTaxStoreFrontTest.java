@@ -4,11 +4,14 @@ import ct.dao.products.ProductCSVDS;
 import ct.dao.products.ProductDS;
 import ct.dao.taxes.FlatTaxDS;
 import ct.dao.taxes.StateFreeTaxDS;
+import ct.products.Product;
 import ct.store.taxes.TaxEngine;
 import ct.users.Customer;
 import ct.users.User;
 import ct.users.UserInfo;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.nio.file.Paths;
@@ -18,14 +21,41 @@ import static org.junit.Assert.fail;
 
 public class StateTaxStoreFrontTest
 {
-    StoreFront sf;
+    static StoreFront sf;
+    static ProductDS prodDS;
 
-    @Before
-    public void setupStoreFront()
+    @BeforeClass
+    public static void setupStoreFront()
     {
         TaxEngine te = new TaxEngine(new StateFreeTaxDS());
-        ProductDS prodDS = new ProductCSVDS(Paths.get("data", "product", "sample_products.csv"));
+        prodDS = new ProductCSVDS(Paths.get("data", "product", "sample_products.csv"));
         sf = new StoreFront(prodDS, te);
+    }
+
+    @AfterClass
+    public static void tearDownStoreFront()
+    {
+        prodDS.getProductIDs();
+        for(String id: prodDS.getProductIDs()) {
+            Product prod = prodDS.getProduct(id);
+            switch(prod.getId()) {
+                case "1":
+                case "2":
+                case "4":
+                case "7":
+                case "8":
+                case "9":
+                    assertEquals(8, prod.getStockQty());
+                    break;
+                case "3":
+                    assertEquals(298, prod.getStockQty());
+                    break;
+                case "5":
+                case "6":
+                    assertEquals(3, prod.getStockQty());
+                    break;
+            }
+        }
     }
 
     @Test
@@ -62,7 +92,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest1CA()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+        User customer = new Customer("4", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
 
         sf.addItemToShoppingCart(customer, "1", 1);
         sf.addItemToShoppingCart(customer, "2", 1);
@@ -93,7 +123,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest2MN()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new Customer("2", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "4", 1);
         sf.addItemToShoppingCart(customer, "5", 1);
@@ -120,7 +150,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest3MN()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+        User customer = new Customer("3", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
 
         sf.addItemToShoppingCart(customer, "6", 1);
         sf.addItemToShoppingCart(customer, "7", 1);
@@ -155,7 +185,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest2CA()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+        User customer = new Customer("5", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
 
         sf.addItemToShoppingCart(customer, "4", 1);
         sf.addItemToShoppingCart(customer, "5", 1);
@@ -182,7 +212,7 @@ public class StateTaxStoreFrontTest
     @Test
     public void storeTest3CA()
     {
-        User customer = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+        User customer = new Customer("6", new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
 
         sf.addItemToShoppingCart(customer, "6", 1);
         sf.addItemToShoppingCart(customer, "7", 1);
