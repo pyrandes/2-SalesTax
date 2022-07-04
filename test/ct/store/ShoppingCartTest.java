@@ -24,13 +24,13 @@ public class ShoppingCartTest
     {
         Product p;
 
-        p = new Product("1", "tales of", ProductType.Book, false, 12.49f);
+        p = new Product("1", "tales of", ProductType.Book, false, 12.49f, 10);
         sc.addProduct(p, 1);
 
-        p = new Product("2", "Prowler", ProductType.CD, false, 14.99f);
+        p = new Product("2", "Prowler", ProductType.CD, false, 14.99f, 10);
         sc.addProduct(p, 1);
 
-        p = new Product("3", "Godiva Dark Mint", ProductType.Food, false, 0.85f);
+        p = new Product("3", "Godiva Dark Mint", ProductType.Food, false, 0.85f, 10);
         sc.addProduct(p, 3);
 
         assertEquals(new BigDecimal("30.03"), sc.getGrandTotal());

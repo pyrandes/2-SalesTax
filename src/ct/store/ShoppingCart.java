@@ -25,13 +25,13 @@ public class ShoppingCart
 
         // user may have updated qty to something below 0, so we'll remove the item from the shopping cart
         if (itemsInCart.get(item.getId()).getQty() <= 0)
-            removeProduct(item);
+            removeProduct(item.getId());
     }
 
-    public void removeProduct(Product item)
+    public void removeProduct(String productID)
     {
-        if (itemsInCart.containsKey(item.getId()))
-          this.itemsInCart.remove(item.getId());
+        if (itemsInCart.containsKey(productID))
+          this.itemsInCart.remove(productID);
     }
 
     public List<CartItem> getItemsInCart()

@@ -9,4 +9,9 @@ public enum ProductType
     OTHER
     ;
 
+    public static ProductType getTypeForName(String name) {
+        for(ProductType val: values())
+            if (val.name().equalsIgnoreCase(name)) return val;
+        return OTHER;
+    }
 }

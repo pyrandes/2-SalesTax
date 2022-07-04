@@ -34,11 +34,11 @@ public class TaxEngineTest
     {
         ShoppingCart sc = new ShoppingCart();
         Product p;
-        p = new Product("1", "tales of", ProductType.Book, false, 12.49f);
+        p = new Product("1", "tales of", ProductType.Book, false, 12.49f, 10);
         sc.addProduct(p, 1);
-        p = new Product("2", "Prowler", ProductType.CD, false, 14.99f);
+        p = new Product("2", "Prowler", ProductType.CD, false, 14.99f, 10);
         sc.addProduct(p, 1);
-        p = new Product("3", "Godiva Dark Mint", ProductType.Food, false,0.85f);
+        p = new Product("3", "Godiva Dark Mint", ProductType.Food, false,0.85f, 10);
         sc.addProduct(p, 3);
 
         User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
@@ -59,9 +59,9 @@ public class TaxEngineTest
     {
         ShoppingCart sc = new ShoppingCart();
         Product p;
-        p = new Product("1", "imported chocolate", ProductType.Food, true, 10.00f);
+        p = new Product("1", "imported chocolate", ProductType.Food, true, 10.00f, 10);
         sc.addProduct(p, 1);
-        p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f);
+        p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f, 10);
         sc.addProduct(p, 1);
 
         User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
@@ -82,9 +82,9 @@ public class TaxEngineTest
     {
         ShoppingCart sc = new ShoppingCart();
         Product p;
-        p = new Product("1", "imported chocolate", ProductType.Food, true, 10.00f);
+        p = new Product("1", "imported chocolate", ProductType.Food, true, 10.00f, 10);
         sc.addProduct(p, 1);
-        p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f);
+        p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f, 10);
         sc.addProduct(p, 10);
 
         User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
@@ -105,9 +105,9 @@ public class TaxEngineTest
     {
         ShoppingCart sc = new ShoppingCart();
         Product p;
-        p = new Product("1", "imported chocolate", ProductType.Food, true, 10.00f);
+        p = new Product("1", "imported chocolate", ProductType.Food, true, 10.00f, 10);
         sc.addProduct(p, 1);
-        p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f);
+        p = new Product("2", "imported perfume", ProductType.OTHER, true, 47.50f, 10);
         sc.addProduct(p, 1000);
 
         User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
@@ -128,13 +128,13 @@ public class TaxEngineTest
     {
         ShoppingCart sc = new ShoppingCart();
         Product p;
-        p = new Product("1", "imported chocolate", ProductType.Food, true, 11.25f);
+        p = new Product("1", "imported chocolate", ProductType.Food, true, 11.25f, 10);
         sc.addProduct(p, 1);
-        p = new Product("2", "imported perfume", ProductType.OTHER, true, 27.99f);
+        p = new Product("2", "imported perfume", ProductType.OTHER, true, 27.99f, 10);
         sc.addProduct(p, 1);
-        p = new Product("3", "domestic perfume", ProductType.OTHER, false, 18.99f);
+        p = new Product("3", "domestic perfume", ProductType.OTHER, false, 18.99f, 10);
         sc.addProduct(p, 1);
-        p = new Product("4", "headache pills", ProductType.Medical, false, 9.75f);
+        p = new Product("4", "headache pills", ProductType.Medical, false, 9.75f, 10);
         sc.addProduct(p, 1);
 
         User user = new Customer("1", new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
