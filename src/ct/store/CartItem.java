@@ -23,7 +23,10 @@ public class CartItem
 
     public float getTotal()
     {
-        return (new BigDecimal(product.getMsrp())).multiply(new BigDecimal(qty)).floatValue();
+        BigDecimal total = new BigDecimal(product.getMsrp());
+        total = total.multiply(new BigDecimal(qty));
+        total = total.add(new BigDecimal(tax));
+        return total.floatValue();
     }
 
     public void addToQty(int qty)

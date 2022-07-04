@@ -75,6 +75,6 @@ public class StoreFront
         taxEng.calculateTaxes(customer, sc);
 
         // ideally, there would be other actions here, like payment, et al. before printing a receipt
-        return new Receipt();
+        return new Receipt(sc);
     }
 }

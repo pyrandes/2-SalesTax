@@ -33,6 +33,6 @@ public class ShoppingCartTest
         p = new Product("3", "Godiva Dark Mint", ProductType.Food, false, 0.85f, 10);
         sc.addProduct(p, 3);
 
-        assertEquals(new BigDecimal("30.03"), sc.getGrandTotal());
+        assertEquals(30.03f, sc.getGrandTotal());
     }
 }

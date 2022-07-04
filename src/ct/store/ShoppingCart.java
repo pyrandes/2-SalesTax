@@ -41,22 +41,22 @@ public class ShoppingCart
         return new LinkedList<>(itemsInCart.values());
     }
 
-    public BigDecimal getGrandTotal()
+    public float getGrandTotal()
     {
         // return itemsInCart.values().parallelStream().map(item -> item.getTotal().add(item.getTax())).reduce(new BigDecimal("0", (t1, t2) -> t1.add(t2));
 
         BigDecimal total = new BigDecimal(0f);
         for(CartItem item: itemsInCart.values()) {
-            total = total.add(new BigDecimal(item.getTotal())).add(new BigDecimal(item.getTax()));
+            total = total.add(new BigDecimal(item.getTotal()));
         }
 
         int precision = 2 ;
         if (!(total.floatValue() < 1))
             precision += Integer.toString(total.intValue()).length();
-        return total.round(new MathContext(precision));
+        return total.round(new MathContext(precision)).floatValue();
     }
 
-    public BigDecimal getTotalTax()
+    public float getTotalTax()
     {
         // return itemsInCart.values().parallelStream().map(item -> item.getTax()).reduce(new BigDecimal(0f), (t1, t2) -> t1.add(t2));
 
@@ -68,6 +68,6 @@ public class ShoppingCart
         int precision = 2 ;
         if (!(totalTax.floatValue() < 1))
             precision += Integer.toString(totalTax.intValue()).length();
-        return totalTax.round(new MathContext(precision));
+        return totalTax.round(new MathContext(precision)).floatValue();
     }
 }
