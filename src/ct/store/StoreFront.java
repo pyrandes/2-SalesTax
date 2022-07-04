@@ -60,7 +60,8 @@ public class StoreFront
     }
 
     /**
-     *
+     * Performs a checkout on a customer's current shopping cart, "printing" a reciept once taxes have been
+     * calculated
      * @param customer customer requesting a checkout
      * @return a Receipt representing the shopping cart items
      */
@@ -71,10 +72,13 @@ public class StoreFront
 
         ShoppingCart sc = userShoppingCarts.get(customer.getUserID());
 
-        //TODO: add checkout actions
         taxEng.calculateTaxes(customer, sc);
-
         // ideally, there would be other actions here, like payment, et al. before printing a receipt
+
+        // -- add a history entry here, so if a customer views their profile they can bring up this order
+        //    as a part of "order history"
+        userShoppingCarts.remove(customer.getUserID());
+
         return new Receipt(sc);
     }
 }
