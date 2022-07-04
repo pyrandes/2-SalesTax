@@ -12,15 +12,18 @@ import java.util.Map;
 
 public class StoreFront
 {
-    private ProductDS productDS;
-    private TaxEngine taxEng;
-    private Map<String, ShoppingCart> userShoppingCarts;
+    private final ProductDS productDS;
+    private final TaxEngine taxEng;
+    private final Map<String, ShoppingCart> userShoppingCarts;
+
+    private String lastError;
 
     public StoreFront(ProductDS productDS, TaxEngine taxEng)
     {
         this.productDS = productDS;
         this.taxEng = taxEng;
         userShoppingCarts = new HashMap<>();
+        lastError = "";
     }
 
     /**
@@ -34,6 +37,12 @@ public class StoreFront
             prodList.add(productDS.getProduct(id));
         }
         return prodList;
+    }
+
+    public ShoppingCart getShoppingCart(User customer)
+    {
+        if (!userShoppingCarts.containsKey(customer.getUserID())) return null;
+        return userShoppingCarts.get(customer.getUserID());
     }
 
     /**
@@ -50,7 +59,13 @@ public class StoreFront
         }
 
         Product product = productDS.getProduct(productID);
+        if (product == null) {
+            lastError = "Could not add a product with ID " + productID + " -- this product does not exist!";
+            return false;
+
+        }
         if (product.getStockQty() - qty < 0) {
+            lastError = "Could not add " + product.getName() + " due to insufficient on hand stock.";
             return false; // cannot add this a product with this qty, it'll bring our stock total to 0
         }
 
@@ -95,5 +110,13 @@ public class StoreFront
         userShoppingCarts.remove(customer.getUserID());
 
         return new Receipt(sc);
+    }
+
+    /**
+     * Retrieves the Last recorded error
+     * @return last error message for this shopping cart
+     */
+    public String getLastError() {
+        return lastError;
     }
 }

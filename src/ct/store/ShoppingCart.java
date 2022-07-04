@@ -11,12 +11,18 @@ import java.util.Map;
 
 public class ShoppingCart
 {
-    private Map<String, CartItem> itemsInCart;
+    private final Map<String, CartItem> itemsInCart;
 
     public ShoppingCart()
     {
         this.itemsInCart = new HashMap<>();
     }
+
+    /**
+     * Adds a product to this shopping cart
+     * @param item product to add
+     * @param qty  # of items to add
+     */
     public void addProduct(Product item, int qty)
     {
         if (!itemsInCart.containsKey(item.getId())) {
@@ -28,12 +34,23 @@ public class ShoppingCart
             removeProduct(item.getId());
     }
 
+    /**
+     * Remove a product from this shopping cart
+     * @param productID product id to remove
+     */
     public void removeProduct(String productID)
     {
-        if (itemsInCart.containsKey(productID))
-          this.itemsInCart.remove(productID);
+        if (!itemsInCart.containsKey(productID)) return; // nothing to do, so exit early
+
+        Product prod = itemsInCart.get(productID).getProduct();
+        prod.setStockQty(prod.getStockQty() + itemsInCart.get(productID).getQty());
+        this.itemsInCart.remove(productID);
     }
 
+    /**
+     * Retrieve a list of CartItems
+     * @return a lsting of items currently in this cart
+     */
     public List<CartItem> getItemsInCart()
     {
         // Java Stream to retrieve a listing of cart items
@@ -41,6 +58,10 @@ public class ShoppingCart
         return new LinkedList<>(itemsInCart.values());
     }
 
+    /**
+     * Calculates grand total, including taxes
+     * @return grand total
+     */
     public float getGrandTotal()
     {
         // return itemsInCart.values().parallelStream().map(item -> item.getTotal().add(item.getTax())).reduce(new BigDecimal("0", (t1, t2) -> t1.add(t2));
@@ -56,6 +77,10 @@ public class ShoppingCart
         return total.round(new MathContext(precision)).floatValue();
     }
 
+    /**
+     * Calculates the total tax/duty owed
+     * @return totalTax
+     */
     public float getTotalTax()
     {
         // return itemsInCart.values().parallelStream().map(item -> item.getTax()).reduce(new BigDecimal(0f), (t1, t2) -> t1.add(t2));
