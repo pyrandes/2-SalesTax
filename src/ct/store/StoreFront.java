@@ -5,7 +5,9 @@ import ct.products.Product;
 import ct.store.taxes.TaxEngine;
 import ct.users.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StoreFront
@@ -19,6 +21,19 @@ public class StoreFront
         this.productDS = productDS;
         this.taxEng = taxEng;
         userShoppingCarts = new HashMap<>();
+    }
+
+    /**
+     * Retrieves a listing of current products
+     * @return listing of products in the store
+     */
+    public List<Product> getProductListing()
+    {
+        List<Product> prodList = new ArrayList<>();
+        for(String id: productDS.getProductIDs()) {
+            prodList.add(productDS.getProduct(id));
+        }
+        return prodList;
     }
 
     /**
