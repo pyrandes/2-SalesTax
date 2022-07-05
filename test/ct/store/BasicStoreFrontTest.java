@@ -160,7 +160,7 @@ public class BasicStoreFrontTest
         sf.addItemToShoppingCart(customer, "2", 3);
         sf.addItemToShoppingCart(customer, "5", 1);
         sf.addItemToShoppingCart(customer, "9", 1);
-        sf.addItemToShoppingCart(customer, "9", 1);  // woops, this customer forgot they needed an extra bottle of pills
+        sf.addItemToShoppingCart(customer, "9", 1);  // woops, this customer forgot they needed an extra belgian chocolate!
 
         Receipt rec = sf.checkout(customer);
 

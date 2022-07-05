@@ -17,7 +17,7 @@
 
 A rudimentary command line was implemented for ease of testing/prototyping alongside of the test cases supplied and created.  Users were added to this interface instead of a login for prototyping.  Ideally, we would have a User data store to pull user information from.  
 
-The Command Line UI currently uses the StateFreeTaxDS for a tax data store, injected into the TaxEngine.  We can easily switch this out for a FlatTaxDS, or another TaxDS creation.  The StateFreeTaxDS will consider any state starting with an "M" as tax-free for state taxes.
+The Command Line UI currently uses the StateFreeTaxDS for a tax data store, injected into the TaxEngine.  We can easily switch this out for a FlatTaxDS, or another TaxDS creation.  The StateFreeTaxDS will consider any state starting with an "M" as tax-free for state taxes.  Its entry point is in **ct.Main**.
 
 ## Command Line Menu "Screens"
 ### Login
