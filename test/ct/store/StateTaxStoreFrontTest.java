@@ -241,4 +241,12 @@ public class StateTaxStoreFrontTest
         assertEquals(6.70f, rec.getTotalTax());
         assertEquals(74.68f, rec.getGrandTotal());
     }
+
+    @Test
+    public void storeTestRestock()
+    {
+        User customer = new User("7", UserType.EMPLOYEE, new UserInfo("f", "", "l", "123 testing way", "emma" , "CA", "12345"));
+
+
+    }
 }

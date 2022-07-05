@@ -38,7 +38,7 @@ Please enter an option:
 
 ### Restocking 
 [A]dd new product  
-[R]estock current product  
+[R]estock current product  -- setting so it is < 0 will remove it from a Customer's viewset
 [V]iew current products  
 [D]elete product  
 [E]xit restocking  

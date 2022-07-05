@@ -59,9 +59,9 @@ public class TaxEngine
     }
 
     /**
-     * rounds the calculated tax owed to the nearest $0.05
+     * rounds the calculated tax owed up to the next $0.05
      * @param taxTotal a supplied BigDecimal to round
-     * @return a BigDecimal of the rounded tax total supplied to the nearest nickle
+     * @return a BigDecimal of the rounded tax total supplied up to the next nickle
      */
     private BigDecimal roundCalculatedTaxTotal(BigDecimal taxTotal) {
         int precision = 2 ;

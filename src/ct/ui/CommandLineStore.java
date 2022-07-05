@@ -224,7 +224,7 @@ public class CommandLineStore {
         }
 
         System.out.println("\nHere's your receipt for this transaction!  Thank you for shopping with us!");
-        System.out.println(String.format("[%2s] %30s %5s    %s    %s", "ID", "Product Name", "QTY", "MSRP", "Total"));
+        System.out.println(String.format("[%2s] %30s %5s    %s    %s", "ID", "Product Name", "QTY", "MSRP", "Taxed Total"));
         System.out.println("------------------------------------------------------------------------------");
         for(CartItem item: rec.getItemList()) {
             System.out.println(String.format("[%2s] %30s %5d  %6.2f   %6.2f", item.getProduct().getId(), item.getProduct().getName(), item.getQty(), item.getProduct().getMsrp(), item.getTotal()));
