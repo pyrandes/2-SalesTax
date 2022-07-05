@@ -48,6 +48,26 @@ public class ShoppingCart
     }
 
     /**
+     * Check to see if we have an existing item in the cart
+     * @param id  ID of product to check
+     * @return  true if product already exists in the cart
+     */
+    public boolean containsProduct(String id)
+    {
+        return itemsInCart.containsKey(id);
+    }
+
+    /**
+     * Retrieves a cart item for a given product id
+     * @param id ID of a given product
+     * @return CartItem representing the product
+     */
+    public CartItem getCartItem(String id)
+    {
+        return itemsInCart.get(id) == null ? null : itemsInCart.get(id);
+    }
+
+    /**
      * Retrieve a list of CartItems
      * @return a lsting of items currently in this cart
      */

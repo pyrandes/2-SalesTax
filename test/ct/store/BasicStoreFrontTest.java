@@ -119,4 +119,100 @@ public class BasicStoreFrontTest
         assertEquals(6.70f, rec.getTotalTax());
         assertEquals(74.68f, rec.getGrandTotal());
     }
+
+    @Test
+    public void storeTest4()
+    {
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+
+        sf.addItemToShoppingCart(customer, "1", 2);
+        sf.addItemToShoppingCart(customer, "3", 2);
+        sf.addItemToShoppingCart(customer, "8", 1);
+        sf.addItemToShoppingCart(customer, "8", 1);  // woops, this customer forgot they needed an extra bottle of pills
+
+        Receipt rec = sf.checkout(customer);
+
+        for(CartItem item: rec.getItemList()) {
+            switch(item.getProduct().getId()) {
+                case "1":
+                    assertEquals(24.98f, item.getTotal());
+                    break;
+                case "3":
+                    assertEquals(1.7f, item.getTotal());
+                    break;
+                case "8":
+                    assertEquals(19.5f, item.getTotal());
+                    break;
+                default:
+                    fail("Invalid item added to the cart!");
+            }
+        }
+
+        assertEquals(0f, rec.getTotalTax());
+        assertEquals(46.18f, rec.getGrandTotal());
+    }
+
+    @Test
+    public void storeTest5()
+    {
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+
+        sf.addItemToShoppingCart(customer, "2", 3);
+        sf.addItemToShoppingCart(customer, "5", 1);
+        sf.addItemToShoppingCart(customer, "9", 1);
+        sf.addItemToShoppingCart(customer, "9", 1);  // woops, this customer forgot they needed an extra bottle of pills
+
+        Receipt rec = sf.checkout(customer);
+
+        for(CartItem item: rec.getItemList()) {
+            switch(item.getProduct().getId()) {
+                case "2":
+                    assertEquals(49.47f, item.getTotal());
+                    break;
+                case "5":
+                    assertEquals(54.65f, item.getTotal());
+                    break;
+                case "9":
+                    assertEquals(23.65f, item.getTotal());
+                    break;
+                default:
+                    fail("Invalid item added to the cart!");
+            }
+        }
+
+        assertEquals(12.8f, rec.getTotalTax());
+        assertEquals(127.77f, rec.getGrandTotal());
+    }
+
+    @Test
+    public void storeTest6()
+    {
+        User customer = new User("1", UserType.CUSTOMER, new UserInfo("f", "", "l", "123 testing way", "emma" , "MN", "12345"));
+
+        sf.addItemToShoppingCart(customer, "2", 3);
+        sf.addItemToShoppingCart(customer, "5", 1);
+        sf.addItemToShoppingCart(customer, "9", 1);
+        sf.addItemToShoppingCart(customer, "9", -1);  // woops, this customer didnt mean to add, so they reduced the qty instead of removing it
+
+        Receipt rec = sf.checkout(customer);
+
+        for(CartItem item: rec.getItemList()) {
+            switch(item.getProduct().getId()) {
+                case "2":
+                    assertEquals(49.47f, item.getTotal());
+                    break;
+                case "5":
+                    assertEquals(54.65f, item.getTotal());
+                    break;
+                case "9":
+                    assertEquals(0f, item.getTotal());
+                    break;
+                default:
+                    fail("Invalid item added to the cart!");
+            }
+        }
+
+        assertEquals(11.65f, rec.getTotalTax());
+        assertEquals(104.12f, rec.getGrandTotal());
+    }
 }

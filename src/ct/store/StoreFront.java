@@ -113,7 +113,15 @@ public class StoreFront
         }
 
         product.setStockQty(product.getStockQty() - qty);
-        userShoppingCarts.get(customer.getUserID()).addProduct(product, qty);
+        ShoppingCart sc = userShoppingCarts.get(customer.getUserID());
+        if (!sc.containsProduct(productID)) {
+            sc.addProduct(product, qty);
+            return true;
+        }
+        sc.getCartItem(productID).addToQty(qty);
+        // if the qty for that item is now <= 0, remove it from the cart... the user didnt actually want this item
+        if (sc.getCartItem(productID).getQty() <= 0) sc.removeProduct(productID);
+
         return true;
     }
 
