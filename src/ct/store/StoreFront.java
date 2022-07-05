@@ -32,6 +32,12 @@ public class StoreFront
      */
     public void restockProduct(Product prod)
     {
+        if (prod.getId().isEmpty()) {
+            List<Product> prodList = getProductListing();
+            String id = prodList.get(prodList.size()-1).getId();
+            id = Integer.toString(Integer.parseInt(id)+1);
+            prod = new Product(id, prod.getName(), prod.getType(), prod.isImport(), prod.getMsrp(), prod.getStockQty());
+        }
         productDS.restockProduct(prod);
     }
 
@@ -42,6 +48,11 @@ public class StoreFront
     public void removeProduct(String prodID)
     {
         productDS.removeProduct(prodID);
+    }
+
+    public Product getProductWithID(String id)
+    {
+        return productDS.getProduct(id);
     }
 
     /**

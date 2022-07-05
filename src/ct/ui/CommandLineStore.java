@@ -1,6 +1,7 @@
 package ct.ui;
 
 import ct.products.Product;
+import ct.products.ProductType;
 import ct.store.CartItem;
 import ct.store.Receipt;
 import ct.store.ShoppingCart;
@@ -87,7 +88,134 @@ public class CommandLineStore {
 
     private void restockItems(BufferedReader clrIn) throws Exception
     {
+        while(true)
+        {
+            System.out.println("\nRestocking options");
+            System.out.println("   [A]dd new product");
+            System.out.println("   [R]estock current product");
+            System.out.println("   [V]iew current products");
+            System.out.println("   [D]elete product");
+            System.out.println("   [E]xit restocking");
+            System.out.print("Restocking option? ");
 
+            String opt = clrIn.readLine();
+            switch(opt.toUpperCase())
+            {
+                case "A":
+                    addNewProduct(clrIn);
+                    break;
+                case "R":
+                    restockProduct(clrIn);
+                    break;
+                case "V":
+                    viewCurrentProducts();
+                    break;
+                case "D":
+                    removeProduct(clrIn);
+                    break;
+                case "E":
+                    return;
+                default:
+                    System.out.println("Invalid option!  Please choose again!");
+            }
+        }
+    }
+
+    private void addNewProduct(BufferedReader clrIn) throws Exception
+    {
+        System.out.print("Name: ");
+        String name = clrIn.readLine();
+
+        System.out.println("\n Choose a type:");
+        for(ProductType t: ProductType.values())
+            System.out.print(t.name() + " ");
+        System.out.println();
+        System.out.print("Product Type: ");
+        String typeStr = clrIn.readLine();
+        ProductType type = ProductType.getTypeForName(typeStr);
+
+        System.out.print("\nIs Import (Y/N)?");
+        boolean isImport = clrIn.readLine().equalsIgnoreCase("Y");
+
+        System.out.print("\nSale Price: ");
+        String msrpStr = clrIn.readLine();
+        float msrp = 0f;
+        while(true) {
+            try {
+                msrp = Float.parseFloat(msrpStr);
+                break;
+            } catch (Exception ex) {
+                System.out.print("Invalid price, please enter like [n.nn]: ");
+            }
+        }
+
+        System.out.print("\nInitial Stock QTY: ");
+        String qtyStr = clrIn.readLine();
+        int qty = 0;
+        while(true) {
+            try {
+                qty = Integer.parseInt(qtyStr);
+                break;
+            } catch (Exception ex) {
+                System.out.print("Invalid QTY, please enter like [nnn]: ");
+            }
+        }
+
+        store.restockProduct(new Product("", name, type, isImport, msrp, qty));
+    }
+
+    private void restockProduct(BufferedReader clrIn) throws Exception
+    {
+
+        viewCurrentProducts();
+        System.out.print("Choose product to restock: ");
+        String id = clrIn.readLine();
+        Product prod = store.getProductWithID(id);
+        if (prod == null) {
+            System.err.println("No product exists with that ID, returning to previous menu");
+            return;
+        }
+
+        System.out.print("Qty to add: ");
+        String qtyStr = clrIn.readLine();
+        int qty = 0;
+        while(true) {
+            try {
+                qty = Integer.parseInt(qtyStr);
+                break;
+            } catch (Exception ex) {
+                System.out.print("Invalid QTY, please enter like [nnn]: ");
+            }
+        }
+        prod.setStockQty(qty);
+        store.restockProduct(prod);
+    }
+
+    private void removeProduct(BufferedReader clrIn) throws  Exception
+    {
+        viewCurrentProducts();
+        System.out.print("Enter product to remove: ");
+        String id = clrIn.readLine();
+        Product prod = store.getProductWithID(id);
+        if (prod == null) {
+            System.err.println("No product exists with that ID, returning to previous menu");
+            return;
+        }
+
+        store.removeProduct(id);
+    }
+
+    private void viewCurrentProducts()
+    {
+        System.out.println();
+        List<Product> prodList = store.getProductListing();
+        System.out.println(String.format("[%2s] %30s %10s %10s   %s  %s", "ID", "Product Name", "Type", "Is Import?", "QTY", "Sale Price"));
+        System.out.println("---------------------------------------------------------------------------------------");
+        for(Product prod: prodList) {
+            if (prod.getStockQty() <= 0) continue;  // only display products currently in stock
+
+            System.out.println(String.format("[%2s] %30s %10s %10s   %3d  $%3.2f", prod.getId(), prod.getName(), prod.getType().name(), prod.isImport() ? "I" : "", prod.getStockQty(), prod.getMsrp()));
+        }
     }
 
     private void checkOut()
@@ -146,37 +274,41 @@ public class CommandLineStore {
     private void addProductsToCart(BufferedReader clrIn) throws Exception
     {
         System.out.println("Please choose from our selection of products!");
-        listProducts();
-        System.out.println("[E]xit product selection");
-        System.out.print("Enter a Product ID to add: ");
-        String id = clrIn.readLine();
 
-        int qty = 0;
-        while(true) {
-            try {
-                System.out.print("Enter Quantity: ");
-                String qtyStr = clrIn.readLine();
+        while (true) {
+            listProducts();
+            System.out.println("[E]xit product selection");
+            System.out.print("Enter a Product ID to add: ");
+            String id = clrIn.readLine();
+            if (id.equalsIgnoreCase("E")) return;
 
-                qty = Integer.parseInt(qtyStr);
-                break;
-            } catch (Exception ex) {
-                System.err.println("Could not validate quantity... try entering again (Y/N)?");
-                if (!clrIn.readLine().equalsIgnoreCase("Y")) {
-                    qty = 0;
+            int qty = 0;
+            while (true) {
+                try {
+                    System.out.print("Enter Quantity: ");
+                    String qtyStr = clrIn.readLine();
+
+                    qty = Integer.parseInt(qtyStr);
                     break;
+                } catch (Exception ex) {
+                    System.err.println("Could not validate quantity... try entering again (Y/N)?");
+                    if (!clrIn.readLine().equalsIgnoreCase("Y")) {
+                        qty = 0;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (qty == 0) {
-            System.out.println("Could not add " + id + " to the shopping cart!");
-        }
+            if (qty == 0) {
+                System.out.println("Could not add " + id + " to the shopping cart!");
+            }
 
-        if (!store.addItemToShoppingCart(currentUser, id, qty)) {
-            System.err.println(store.getLastError());
-            return;
+            if (!store.addItemToShoppingCart(currentUser, id, qty)) {
+                System.err.println(store.getLastError());
+                continue;
+            }
+            System.out.println("Item added successfully!");
         }
-        System.out.println("Item added successfully!");
     }
 
     private void listProducts()
@@ -195,8 +327,10 @@ public class CommandLineStore {
     private void changeState(BufferedReader clrIn) throws Exception
     {
         System.out.println("\nCurrent State: " + currentUser.getUserInfo().getState());
-        System.out.print("Change state to: ");
+        System.out.print("Change state to (blank will keep old state): ");
         String stateCd = clrIn.readLine();
+        if (stateCd.isEmpty()) return;
+        
         UserInfo custInfo = new UserInfo(
                 currentUser.getUserInfo().getFirstName(),
                 currentUser.getUserInfo().getMi(),
@@ -232,8 +366,6 @@ public class CommandLineStore {
         if (!availUsers.containsKey(id)) return null;
         return availUsers.get(id);
     }
-
-
 
     private  void displayMenuOptions()
     {

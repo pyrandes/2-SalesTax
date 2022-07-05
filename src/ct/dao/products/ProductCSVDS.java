@@ -52,7 +52,6 @@ public class ProductCSVDS implements ProductDS
             existProd.setStockQty(existProd.getStockQty() + product.getStockQty());
             return;
         }
-
         productMap.put(product.getId(), product);
     }
 
@@ -76,7 +75,7 @@ public class ProductCSVDS implements ProductDS
         Map<String, Product> prodMap = new HashMap<>();
 
         try(BufferedReader prodIn = Files.newBufferedReader(csvPath)) {
-            String lineIn;
+            String lineIn = "";
             while((lineIn = prodIn.readLine()) != null) {
                 String[] prodCSV = lineIn.split(",");
                 Product prod = new Product(
