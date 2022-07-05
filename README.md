@@ -13,6 +13,7 @@
 * **CartItem** contains a reference to the Product added for convenience
 * **Receipt** contains a copy of the shopping cart, without the need to total a Tax Total or a Grand Total (these are just passed in). 
   * Ideally the receipt would be pushed to an "Order History" data table at the same time that it is presented to a User, for record keeping purposes
+* Testing was performed using JUnit 4.0
 
 A rudimentary command line was implemented for ease of testing/prototyping alongside of the test cases supplied and created.  Users were added to this interface instead of a login for prototyping.  Ideally, we would have a User data store to pull user information from.  
 
