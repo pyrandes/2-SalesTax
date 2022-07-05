@@ -93,6 +93,7 @@ public class CommandLineStore {
             System.out.println("\nRestocking options");
             System.out.println("   [A]dd new product");
             System.out.println("   [R]estock current product");
+            System.out.println("   [C]hange product pricing");
             System.out.println("   [V]iew current products");
             System.out.println("   [D]elete product");
             System.out.println("   [E]xit restocking");
@@ -113,12 +114,42 @@ public class CommandLineStore {
                 case "D":
                     removeProduct(clrIn);
                     break;
+                case "C":
+                    changeProductPricing(clrIn);
+                    break;
                 case "E":
                     return;
                 default:
                     System.out.println("Invalid option!  Please choose again!");
             }
         }
+    }
+
+    private void changeProductPricing(BufferedReader clrIn) throws Exception
+    {
+        viewCurrentProducts();
+        System.out.print("Choose product to restock: ");
+        String id = clrIn.readLine();
+        Product prod = store.getProductWithID(id);
+        if (prod == null) {
+            System.err.println("No product exists with that ID, returning to previous menu");
+            return;
+        }
+
+        System.out.print("New Sale Price for product: ");
+        String msrpStr = clrIn.readLine();
+        float msrp = 0f;
+        while(true) {
+            try {
+                msrp = Float.parseFloat(msrpStr);
+                break;
+            } catch (Exception ex) {
+                System.out.print("Invalid Sale Price, please enter like [n.nn]: ");
+            }
+        }
+        prod.setStockQty(0);
+        prod.setMsrp(msrp);
+        store.updateProductInformation(prod);
     }
 
     private void addNewProduct(BufferedReader clrIn) throws Exception
