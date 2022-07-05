@@ -80,7 +80,7 @@ public class ProductCSVDS implements ProductDS
                 String[] prodCSV = lineIn.split(",");
                 Product prod = new Product(
                         prodCSV[0],                             // id
-                        prodCSV[1],                             // name
+                        prodCSV[1].replace("\"", ""), // name
                         ProductType.getTypeForName(prodCSV[2]), // productType
                         Boolean.parseBoolean(prodCSV[3]),       // isImport
                         Float.parseFloat(prodCSV[4]),           // MSRP

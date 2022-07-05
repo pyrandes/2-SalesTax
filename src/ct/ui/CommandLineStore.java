@@ -166,7 +166,6 @@ public class CommandLineStore {
 
     private void restockProduct(BufferedReader clrIn) throws Exception
     {
-
         viewCurrentProducts();
         System.out.print("Choose product to restock: ");
         String id = clrIn.readLine();
@@ -212,8 +211,6 @@ public class CommandLineStore {
         System.out.println(String.format("[%2s] %30s %10s %10s   %s  %s", "ID", "Product Name", "Type", "Is Import?", "QTY", "Sale Price"));
         System.out.println("---------------------------------------------------------------------------------------");
         for(Product prod: prodList) {
-            if (prod.getStockQty() <= 0) continue;  // only display products currently in stock
-
             System.out.println(String.format("[%2s] %30s %10s %10s   %3d  $%3.2f", prod.getId(), prod.getName(), prod.getType().name(), prod.isImport() ? "I" : "", prod.getStockQty(), prod.getMsrp()));
         }
     }
@@ -221,6 +218,10 @@ public class CommandLineStore {
     private void checkOut()
     {
         Receipt rec = store.checkout(currentUser);
+        if (rec == null) {
+            System.out.println("Could not perform a checkout.  No Shopping Cart has been created! Please add an item.");
+            return;
+        }
 
         System.out.println("\nHere's your receipt for this transaction!  Thank you for shopping with us!");
         System.out.println(String.format("[%2s] %30s %5s    %s    %s", "ID", "Product Name", "QTY", "MSRP", "Total"));
@@ -330,7 +331,7 @@ public class CommandLineStore {
         System.out.print("Change state to (blank will keep old state): ");
         String stateCd = clrIn.readLine();
         if (stateCd.isEmpty()) return;
-        
+
         UserInfo custInfo = new UserInfo(
                 currentUser.getUserInfo().getFirstName(),
                 currentUser.getUserInfo().getMi(),

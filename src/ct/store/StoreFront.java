@@ -50,9 +50,15 @@ public class StoreFront
         productDS.removeProduct(prodID);
     }
 
+    /**
+     * retrieve product information using a passed in ID
+     * @param id of a product to return
+     * @return a clone of the Product with the passed in ID
+     */
     public Product getProductWithID(String id)
     {
-        return productDS.getProduct(id);
+        Product prod = productDS.getProduct(id);
+        return new Product(prod.getId(), prod.getName(), prod.getType(), prod.isImport(), prod.getMsrp(), prod.getStockQty());
     }
 
     /**
