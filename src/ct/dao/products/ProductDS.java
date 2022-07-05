@@ -8,6 +8,6 @@ public interface ProductDS
 {
     Set<String> getProductIDs();
     Product getProduct(String id);
-    void restockProduct(Product product);
+    void updateProductInformation(Product product);
     void removeProduct(String prodID);
 }

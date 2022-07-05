@@ -27,10 +27,10 @@ public class StoreFront
     }
 
     /**
-     * Adds/Restocks a product to a backing DataStore
+     * Adds a product or updates an existing product to a backing DataStore
      * @param prod product to restock/add
      */
-    public void restockProduct(Product prod)
+    public void updateProductInformation(Product prod)
     {
         if (prod.getId().isEmpty()) {
             // this is a new product, so we'll need to assign it a new SKU id
@@ -39,7 +39,7 @@ public class StoreFront
             id = Integer.toString(Integer.parseInt(id)+1);
             prod = new Product(id, prod.getName(), prod.getType(), prod.isImport(), prod.getMsrp(), prod.getStockQty());
         }
-        productDS.restockProduct(prod);
+        productDS.updateProductInformation(prod);
     }
 
     /**

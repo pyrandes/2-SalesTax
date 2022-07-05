@@ -46,10 +46,11 @@ public class ProductCSVDS implements ProductDS
      * @param product product to add or restock
      */
     @Override
-    public void restockProduct(Product product) {
+    public void updateProductInformation(Product product) {
         if (productMap.containsKey(product.getId())) {
             Product existProd = productMap.get(product.getId());
             existProd.setStockQty(existProd.getStockQty() + product.getStockQty());
+            existProd.setMsrp(product.getMsrp());  // very basic and should be done in a more controlled manner
             return;
         }
         productMap.put(product.getId(), product);

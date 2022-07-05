@@ -5,7 +5,7 @@ public class Product
     private final String id, name;
     private final ProductType type;
     private final boolean isImport;
-    private final float msrp;
+    private float msrp;
     private int stockQty;
 
     public Product(String id, String name, ProductType type, boolean isImport, float msrp, int stockQty)
@@ -44,6 +44,10 @@ public class Product
 
     public void setStockQty(int stockQty) {
         this.stockQty = stockQty;
+    }
+
+    public void setMsrp(float msrp) {
+        this.msrp = msrp;
     }
 }
 

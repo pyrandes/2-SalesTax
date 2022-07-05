@@ -161,7 +161,7 @@ public class CommandLineStore {
             }
         }
 
-        store.restockProduct(new Product("", name, type, isImport, msrp, qty));
+        store.updateProductInformation(new Product("", name, type, isImport, msrp, qty));
     }
 
     private void restockProduct(BufferedReader clrIn) throws Exception
@@ -187,7 +187,7 @@ public class CommandLineStore {
             }
         }
         prod.setStockQty(qty);
-        store.restockProduct(prod);
+        store.updateProductInformation(prod);
     }
 
     private void removeProduct(BufferedReader clrIn) throws  Exception
