@@ -33,6 +33,7 @@ public class StoreFront
     public void restockProduct(Product prod)
     {
         if (prod.getId().isEmpty()) {
+            // this is a new product, so we'll need to assign it a new SKU id
             List<Product> prodList = getProductListing();
             String id = prodList.get(prodList.size()-1).getId();
             id = Integer.toString(Integer.parseInt(id)+1);
@@ -58,6 +59,8 @@ public class StoreFront
     public Product getProductWithID(String id)
     {
         Product prod = productDS.getProduct(id);
+        if (prod == null) return null;
+
         return new Product(prod.getId(), prod.getName(), prod.getType(), prod.isImport(), prod.getMsrp(), prod.getStockQty());
     }
 
